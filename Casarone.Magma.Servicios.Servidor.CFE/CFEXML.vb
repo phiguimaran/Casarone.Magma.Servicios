@@ -4,6 +4,7 @@ Imports Uruware.LibUcfe.Xml
 Imports LiquidTechnologies.Runtime.Net40
 
 Class CFEXML
+    ' otra prueba de cambios
     Public cfe As New Uruware.LibUcfe.Xml.CFE()
     Public codComercio As String
     Public codTerminal As String
@@ -129,7 +130,7 @@ Class CFEXML
                 Case "151", "152" ' eBoleta de entrada
                     '*********** 201806 P.H.
                     Dim strcoddoc As String = IIf(tipoCFE = "151", "bolc", "bold")
-                    cmd.Text = "UPDATE cpt_nc_prod_cab set serie_cfe ='" & respBody.Resp.Serie & "', cod_doc='" & strcoddoc.trim & "', nro_doc=" & respBody.Resp.NumeroCfe & " WHERE nro_trans=" & respBody.Resp.Uuid
+                    cmd.Text = "UPDATE cpt_nc_prod_cab set serie_cfe ='" & respBody.Resp.Serie & "', cod_doc='" & strcoddoc.Trim & "', nro_doc=" & respBody.Resp.NumeroCfe & " WHERE nro_trans=" & respBody.Resp.Uuid
                     SQL.EjeCmd(cmd, sqlParams)
                     cmd.Text = "UPDATE cpt_nc_prod_lin set serie_cfe ='" & respBody.Resp.Serie & "', cod_doc='" & strcoddoc.Trim & "', nro_doc=" & respBody.Resp.NumeroCfe & " WHERE nro_trans=" & respBody.Resp.Uuid
                     SQL.EjeCmd(cmd, sqlParams)
@@ -1023,7 +1024,7 @@ Class CFEXML
                     micfe.Referencia.ReferenciaA.Item(0).RazonRef = "Referencia a documento no electrónico: código: " & cab.Rows(0).Item("cod_doc_ref").ToString & " serie: " & cab.Rows(0).Item("serie_cfe_ref").ToString & " número: " & cab.Rows(0).Item("nro_cfe_ref").ToString
                 End If
             End If
-            End If
+        End If
         '----------------------------------------------------------------------------------
 
 
