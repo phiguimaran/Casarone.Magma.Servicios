@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.uruware.com/ucfe/inbox/webservice" elementFormDefault="qualified" targetNamespace="http://www.uruware.com/ucfe/inbox/webservice" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://192.168.5.33:90/UcfeWsTest?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Uruware.Ucfe.Inbox.WebService" />
+  <xs:element name="Invoke">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="req" nillable="true" type="tns:ReqBody" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ReqBody">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="HMAC" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Req" nillable="true" type="tns:RequerimientoParaUcfe" />
+      <xs:element minOccurs="0" name="RequestDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tout" type="xs:int" />
+      <xs:element minOccurs="0" name="ReqEnc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodComercio" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodTerminal" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReqBody" nillable="true" type="tns:ReqBody" />
+  <xs:complexType name="RequerimientoParaUcfe">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Adenda" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Certificado" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CfeXmlOTexto" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CifrarComplementoFiscal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodComercio" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodRta" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodTerminal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DatosQr" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmailEnvioPdfReceptor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EstadoSituacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaReq" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HoraReq" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdReq" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Impresora" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NumeroCfe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RechCom" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RutEmisor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Serie" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TipoCfe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TipoMensaje" type="xs:int" />
+      <xs:element minOccurs="0" name="TipoNotificacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Uuid" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequerimientoParaUcfe" nillable="true" type="tns:RequerimientoParaUcfe" />
+  <xs:element name="InvokeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Uruware.Ucfe.Inbox.WebService" minOccurs="0" name="InvokeResult" nillable="true" type="q1:RespBody" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="RespuestaDeUcfe">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Adenda" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CaeNroDesde" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CaeNroHasta" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Certificado" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CertificadoParaFirmarCfe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ClaveCertificadoFirma" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodComercio" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodRta" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodTerminal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodigoSeguridad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DatosQr" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EstadoEnDgiCfeRecibido" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EstadoSituacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Etiquetas" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaFirma" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FechaReq" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HoraReq" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdCae" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IdReq" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ImagenQr" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="MensajeRta" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NumeroCfe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RangoDesde" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RangoHasta" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RutEmisor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Serie" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TipoCfe" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TipoMensaje" type="xs:int" />
+      <xs:element minOccurs="0" name="TipoNotificacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Uuid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VencimientoCae" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="XmlCfeFirmado" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RespuestaDeUcfe" nillable="true" type="tns:RespuestaDeUcfe" />
+</xs:schema>

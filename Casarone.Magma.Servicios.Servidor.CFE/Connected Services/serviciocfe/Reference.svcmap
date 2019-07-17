@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="9657e87b-78c3-48d8-82b5-a11aac28b746" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://192.168.5.33:90/UcfeWsTest" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="UcfeWsTest.disco" MetadataType="Disco" ID="8c7bd5c2-a26b-4bd9-b0db-837525494811" SourceId="1" SourceUrl="http://192.168.5.33:90/UcfeWsTest?disco" />
+    <MetadataFile FileName="UcfeWsTest.wsdl" MetadataType="Wsdl" ID="1eab48e3-50e9-4477-b6b6-3ee260b9fca3" SourceId="1" SourceUrl="http://192.168.5.33:90/UcfeWsTest?wsdl=wsdl0" />
+    <MetadataFile FileName="UcfeWsTest.xsd" MetadataType="Schema" ID="567c235a-2467-4c60-bd83-4a8ad597042a" SourceId="1" SourceUrl="http://192.168.5.33:90/UcfeWsTest?xsd=xsd2" />
+    <MetadataFile FileName="UcfeWsTest1.xsd" MetadataType="Schema" ID="62320091-dc6b-4f77-91a1-7d23942e6f84" SourceId="1" SourceUrl="http://192.168.5.33:90/UcfeWsTest?xsd=xsd1" />
+    <MetadataFile FileName="UcfeWsTest2.xsd" MetadataType="Schema" ID="b1c2e992-2d46-41a0-bcb3-eb9a27d4cc1d" SourceId="1" SourceUrl="http://192.168.5.33:90/UcfeWsTest?xsd=xsd0" />
+    <MetadataFile FileName="CfeService2.wsdl" MetadataType="Wsdl" ID="5241d931-1541-47d4-85d8-d0b3f81f2947" SourceId="1" SourceUrl="http://192.168.5.33:90/UcfeWsTest?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
