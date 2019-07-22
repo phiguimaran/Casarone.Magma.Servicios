@@ -220,7 +220,7 @@ Class CFEXML
         Dim otr2 As System.Data.DataTable
         Dim i, totLineas As Integer
         Dim totMontoNF, totMontoNG, totMontoExp, totMontoTM, totMontoTB, totIvaTM, totIvaTB As Double
-        Dim cuentasExportAsim As Integer = 301 ' P.H. modificado 30/07/2015 a pedido de Fatima (ver mail del 28/07/2015), 311, 313, 314, 348} 'LO QUE TENGA ESTAS CUENTAS LO TOTALIZO EN "EXPORTACIONES Y ASIMILADAS" Y NO VA PARA EL IVA EXCENTO
+        Dim cuentasExportAsim As New List(Of Integer)({301, 313})
         Dim fpagoContado As Integer = 101  ' CODIGO DE FORMA DE PAGO QUE REPRESENTA EL PAGO CONTADO
         Dim sqlCab, sqlLin As String
         Dim sqlParams As New SQLParameters(_transaccion)
@@ -274,7 +274,7 @@ Class CFEXML
             x.Text = sqlLin
             lin = SQL.SelDataTable(x, sqlParams)
             If lin.Rows.Count = 0 Then Return 6 ' no se encontraron las lineas de la fatura
-        ElseIf tipoCFE = "151" Or tipoCFE = "152" Then 'tipoCFE = 102 o 112 - Notas de credito
+        ElseIf tipoCFE = "151" Or tipoCFE = "152" Then 'tipoCFE = 151 o 152 - Boleta de compra
             ' tomo datos del cabezal de la factura
             sqlCab = "select CAB.fec_doc, '101' cod_fpago, CAB.fec_doc fec_vto_fac, 1 cod_sucursal, TIT.tipo_documento, TIT.cod_pais, "
             sqlCab += " TIT.nro_dgi, TIT.nom_tit, TIT.dir_tit, TIT.ciudad_tit, MON.id_sopmg_mone, CAB.tc_ing, (select porc_impuesto from ct_impuestos where cod_tipo_impu = "
@@ -442,7 +442,7 @@ Class CFEXML
                 If tipoCFE = "151" Or tipoCFE = "152" Then
                     totMontoNG = totMontoNG + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
                     micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Boleta_IndFact.n15  'item vendido por un contribuyente de IMEBA
-                ElseIf CInt(lin.Rows(i)("cta_vta_fac")) = cuentasExportAsim Then
+                ElseIf cuentasExportAsim.indexof(CInt(lin.Rows(i)("cta_vta_fac"))) >= 0 Then
                     totMontoExp = totMontoExp + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
                     micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Fact_IndFact.n10  'exportacion y asimiladas
                 Else

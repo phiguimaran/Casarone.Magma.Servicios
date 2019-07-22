@@ -74,6 +74,9 @@ Public Class EnviarCFE
         entradas = _entradaresuelta.Split("|")
         tipoCFE = entradas(0)
         trans = entradas(1)
+        If trans < 3764000 Then
+            msgbox("Comprobante anterior al cambio de sistema. No es posible editar de esta forma.")
+        End If
         esBatch = IIf(entradas(2) = "S", True, False)
         tipoMensaje = IIf(esBatch, 340, 310)
         'Return True
