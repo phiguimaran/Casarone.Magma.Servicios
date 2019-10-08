@@ -194,7 +194,7 @@ Class CFEXML
         Catch
             Return 501
         End Try
-
+        'msgbox(Me.cfe.ToXml())
         If respBody.ErrorCode <> 0 Then Return respBody.ErrorCode 'errores de procesamiento 100-500
         If Val(respBody.Resp.CodRta) <> 0 Then Return Val(respBody.Resp.CodRta) 'respuesta con error 1-99
         ucfe = Nothing
@@ -370,7 +370,6 @@ Class CFEXML
         If tipoCFE = "101" Or tipoCFE = "102" Then
             ' se ve que como el receptor no siempre es obligatorio, etonces no se inicializa y hay que hacerle un New
             micfe.Encabezado.Receptor = New Uruware.LibUcfe.Xml.Receptor_Tck
-            'Dim aa As New Uruware.LibUcfe.Xml.Receptor_Tck
             'A60  si es ticket pueden haber distintos tipos de documento por lo tanto hay que especificarlo
             micfe.Encabezado.Receptor.TipoDocRecep = Uruware.LibUcfe.Xml.Enumerations.DocTypeFromString(cab.Rows(0).Item("tipo_documento").ToString.Trim)
             'A61 codigo de pais
@@ -384,19 +383,25 @@ Class CFEXML
             End If
         ElseIf tipoCFE = "111" Or tipoCFE = "112" Then
             micfe.Encabezado.Receptor = New Uruware.LibUcfe.Xml.Receptor_Fact
-            'A60  tipos de documento no hace falta indicarlo es siempre 2
-            'micfe.Encabezado.Receptor.TipoDocRecep = Uruware.LibUcfe.Xml.Enumerations.DocType.n2
-            'A61 codigo de pais (siempre UY)
+            'A60  tipos de documento TIENE que ser 2=RUT
+            micfe.Encabezado.Receptor.TipoDocRecep = Uruware.LibUcfe.Xml.Enumerations.DocTypeFromString(cab.Rows(0).Item("tipo_documento").ToString.Trim)
+            'A61 codigo de pais TIENE que ser siempre UY
             micfe.Encabezado.Receptor.CodPaisRecep = Uruware.LibUcfe.Xml.Enumerations.CodPaisTypeFromString(otr.Rows(0).Item("iso3166"))
-            'A62 siempre sería un RUT
+            'A62 siempre sería un RUT por lo tanto va en A62=DocRecep
             micfe.Encabezado.Receptor.DocRecep = cab.Rows(0).Item("nro_dgi").ToString.Trim
         ElseIf tipoCFE = "151" Or tipoCFE = "152" Then
+            micfe.Encabezado.Receptor = New Uruware.LibUcfe.Xml.Receptor_Boleta
+            'A60  tipos de documento puede ser cualquiera
+            micfe.Encabezado.Receptor.TipoDocRecep = Uruware.LibUcfe.Xml.Enumerations.DocTypeFromString(cab.Rows(0).Item("tipo_documento").ToString.Trim)
             'A61 codigo de pais (siempre UY)
             micfe.Encabezado.Receptor.CodPaisRecep = Uruware.LibUcfe.Xml.Enumerations.CodPaisTypeFromString(otr.Rows(0).Item("iso3166"))
-            'A62 siempre sería un RUT
-            Dim d As Uruware.LibUcfe.Xml.EBoleta
+            'A62 y A62.1, si el tipo documento es RUT o CI uruguaya el codigo va en A62 si es cualquier otro documento de otro pais entonces va en A62.1
             micfe.Encabezado.Receptor.Receptor_Boleta_Choice = New Uruware.LibUcfe.Xml.Receptor_Boleta_Choice
-            micfe.Encabezado.Receptor.Receptor_Boleta_Choice.DocRecep = cab.Rows(0).Item("nro_dgi").ToString.Trim
+            If (cab.Rows(0).Item("tipo_documento")) = 2 Or (cab.Rows(0).Item("tipo_documento")) = 3 Then
+                micfe.Encabezado.Receptor.Receptor_Boleta_Choice.DocRecep = cab.Rows(0).Item("nro_dgi").ToString.Trim
+            Else
+                micfe.Encabezado.Receptor.Receptor_Boleta_Choice.DocRecepExt = cab.Rows(0).Item("nro_dgi").ToString.Trim
+            End If
         End If
         'A63 nombre receptor
         micfe.Encabezado.Receptor.RznSocRecep = cab.Rows(0).Item("nom_tit").ToString.Trim
