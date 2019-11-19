@@ -220,7 +220,8 @@ Class CFEXML
         Dim otr2 As System.Data.DataTable
         Dim i, totLineas As Integer
         Dim totMontoNF, totMontoNG, totMontoExp, totMontoTM, totMontoTB, totIvaTM, totIvaTB As Double
-        Dim cuentasExportAsim As New List(Of Integer)({301, 313})
+        Dim cuentasExportAsim As New List(Of Integer)({313})
+        Dim cuentasSuspenso As New List(Of Integer)({301, 302, 303, 304, 305, 365, 366})
         Dim fpagoContado As Integer = 101  ' CODIGO DE FORMA DE PAGO QUE REPRESENTA EL PAGO CONTADO
         Dim sqlCab, sqlLin As String
         Dim sqlParams As New SQLParameters(_transaccion)
@@ -449,7 +450,10 @@ Class CFEXML
                     micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Boleta_IndFact.n15  'item vendido por un contribuyente de IMEBA
                 ElseIf cuentasExportAsim.indexof(CInt(lin.Rows(i)("cta_vta_fac"))) >= 0 Then
                     totMontoExp = totMontoExp + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
-                    micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Fact_IndFact.n10  'exportacion y asimiladas
+                    micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Fact_IndFact.n10  'iva exportacion y asimiladas
+                ElseIf cuentasSuspenso.indexof(CInt(lin.Rows(i)("cta_vta_fac"))) >= 0 Then
+                    totMontoExp = totMontoExp + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
+                    micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Fact_IndFact.n12  'iva en suspenso
                 Else
                     totMontoNG = totMontoNG + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
                     micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Fact_IndFact.n1  'exento
