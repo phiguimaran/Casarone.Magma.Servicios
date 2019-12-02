@@ -4,7 +4,6 @@ Imports Uruware.LibUcfe.Xml
 Imports LiquidTechnologies.Runtime.Net40
 
 Class CFEXML
-    ' otra prueba de cambios
     Public cfe As New Uruware.LibUcfe.Xml.CFE()
     Public codComercio As String
     Public codTerminal As String
@@ -219,7 +218,7 @@ Class CFEXML
         Dim otr As System.Data.DataTable
         Dim otr2 As System.Data.DataTable
         Dim i, totLineas As Integer
-        Dim totMontoNF, totMontoNG, totMontoExp, totMontoTM, totMontoTB, totIvaTM, totIvaTB As Double
+        Dim totMontoNF, totMontoNG, totMontoExp, totMontoSusp, totMontoTM, totMontoTB, totIvaTM, totIvaTB As Double
         Dim cuentasExportAsim As New List(Of Integer)({313})
         Dim cuentasSuspenso As New List(Of Integer)({301, 302, 303, 304, 305, 365, 366})
         Dim fpagoContado As Integer = 101  ' CODIGO DE FORMA DE PAGO QUE REPRESENTA EL PAGO CONTADO
@@ -418,6 +417,7 @@ Class CFEXML
         totMontoNF = 0
         totMontoNG = 0
         totMontoExp = 0
+        totMontoSusp = 0
         totMontoTM = 0
         totMontoTB = 0
         totIvaTB = 0
@@ -445,14 +445,14 @@ Class CFEXML
             'msgbox("hola 2")
             ' B4 - indicador de facturacion, se define por la tasa de iva, ya se suman los montos por separado segun la tasa para los totales
             If lin.Rows(i)("porc_iva") = 0 Then     ' iva tasa cero puede ser Exportaciones y asimiladas o Exento en funcion de la cuenta contable de la linea
-                If tipoCFE = "151" Or tipoCFE = "152" Then
+                If tipoCFE = "151" Or tipoCFE = "152" Then ' estas son las boletas de compra, relacionadas con la liquidacion de arroz y de reintegros
                     totMontoNG = totMontoNG + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
                     micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Boleta_IndFact.n15  'item vendido por un contribuyente de IMEBA
-                ElseIf cuentasExportAsim.indexof(CInt(lin.Rows(i)("cta_vta_fac"))) >= 0 Then
+                ElseIf cuentasExportAsim.IndexOf(CInt(lin.Rows(i)("cta_vta_fac"))) >= 0 Then
                     totMontoExp = totMontoExp + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
                     micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Fact_IndFact.n10  'iva exportacion y asimiladas
-                ElseIf cuentasSuspenso.indexof(CInt(lin.Rows(i)("cta_vta_fac"))) >= 0 Then
-                    totMontoExp = totMontoExp + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
+                ElseIf cuentasSuspenso.IndexOf(CInt(lin.Rows(i)("cta_vta_fac"))) >= 0 Then
+                    totMontoSusp = totMontoSusp + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
                     micfe.Detalle.Item(i).IndFact = Enumerations.Item_Det_Fact_IndFact.n12  'iva en suspenso
                 Else
                     totMontoNG = totMontoNG + lin.Rows(i)("total_linea") 'Math.Round(Convert.ToDouble(fila("total_linea")), 4)
@@ -556,6 +556,10 @@ Class CFEXML
         If Math.Round(totMontoExp, 2) <> 0 Then
             micfe.Encabezado.Totales.MntExpoyAsim = Math.Round(totMontoExp, 2, MidpointRounding.AwayFromZero)
         End If
+        'B115 - monto total iva en suspenso
+        If Math.Round(totMontoSusp, 2) <> 0 Then
+            micfe.Encabezado.Totales.MntIVaenSusp = Math.Round(totMontoSusp, 2, MidpointRounding.AwayFromZero)
+        End If
         'B116 - monto total tasa minima
         If Math.Round(totMontoTM, 2) <> 0 Then
             micfe.Encabezado.Totales.MntNetoIvaTasaMin = Math.Round(totMontoTM, 2, MidpointRounding.AwayFromZero)
@@ -581,7 +585,7 @@ Class CFEXML
         End If
         '-------------------
         'B124 - total monto total
-        micfe.Encabezado.Totales.MntTotal = Math.Round(totMontoNG, 2, MidpointRounding.AwayFromZero) + Math.Round(totMontoExp, 2, MidpointRounding.AwayFromZero) + Math.Round(totMontoTM, 2, MidpointRounding.AwayFromZero) + Math.Round(totMontoTB, 2, MidpointRounding.AwayFromZero) + Math.Round(totIvaTM, 2, MidpointRounding.AwayFromZero) + Math.Round(totIvaTB, 2, MidpointRounding.AwayFromZero)
+        micfe.Encabezado.Totales.MntTotal = Math.Round(totMontoNG, 2, MidpointRounding.AwayFromZero) + Math.Round(totMontoExp, 2, MidpointRounding.AwayFromZero) + Math.Round(totMontoSusp, 2, MidpointRounding.AwayFromZero) + Math.Round(totMontoTM, 2, MidpointRounding.AwayFromZero) + Math.Round(totMontoTB, 2, MidpointRounding.AwayFromZero) + Math.Round(totIvaTM, 2, MidpointRounding.AwayFromZero) + Math.Round(totIvaTB, 2, MidpointRounding.AwayFromZero)
         'B126 - lineas
         micfe.Encabezado.Totales.CantLinDet = totLineas
         'B129 - monto no facturable (redondeo con signo y todo) (admite negativos)
